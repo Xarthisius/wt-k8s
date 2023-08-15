@@ -1,0 +1,16 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  - name: mongodb
+    namespace: girder
+    chart: bitnami/mongodb
+    values:
+      - values/mongodb-values.yaml
+
+  - name: girder
+    namespace: girder
+    chart: ./charts/girder
+    values:
+      - values/girder-values.yaml
