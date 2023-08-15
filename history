@@ -1,0 +1,16 @@
+kind create cluster --name=tns-multi-test --config=kindnodes.yml
+kind get clusters
+kubectl cluster-info --context kind-tns-multi-test
+kind delete cluster --name=tns-multi-test
+
+# helm repo add traefik https://traefik.github.io/charts
+helm install traefik traefik/traefik
+kubectl cluster-info --context kind-tns-multi-test
+kubectl get deployments
+kubectl port-forward $(kubectl get pods --selector "app.kubernetes.io/name=traefik" --output=name) 9000:9000
+
+# http://localhost:9000/dashboard
+
+helm uninstall traefik
+kubectl get deployments
+kind delete cluster --name=tns-multi-test
