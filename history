@@ -14,3 +14,20 @@ kubectl port-forward $(kubectl get pods --selector "app.kubernetes.io/name=traef
 helm uninstall traefik
 kubectl get deployments
 kind delete cluster --name=tns-multi-test
+
+
+# how to run
+
+kind create cluster --name=tns-multi-test --config=kindnodes.yml
+helm plugin install https://github.com/databus23/helm-diff
+helmfile apply
+helmfile delete
+
+# Current stack on my laptop
+
+
+kind version 0.14.0
+$ helm version
+version.BuildInfo{Version:"v3.12.2", GitCommit:"1e210a2c8cc5117d1055bfaa5d40f51bbc2e345e", GitTreeState:"clean", GoVersion:"go1.20.5"}
+$ helmfile
+Version            0.155.1
