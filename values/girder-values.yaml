@@ -1,1 +1,11 @@
 mongodbUri: "mongodb://mongodb:27017/girder"
+
+service:
+  port: 8000
+  protocol: http
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - host: girder.local.wholetale.org

@@ -1,3 +1,29 @@
+# Install shit
+
+# For AMD64 / x86_64
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+wget https://github.com/helmfile/helmfile/releases/download/v0.157.0/helmfile_0.157.0_linux_amd64.tar.gz
+tar xvf helmfile_0.157.0_linux_amd64.tar.gz
+sudo mv ./helmfile /usr/local/bin/helmfile
+
+cd /tmp/
+wget https://get.helm.sh/helm-v3.12.3-linux-amd64.tar.gz
+tar xvf helm-v3.12.3-linux-amd64.tar.gz
+sudo mv ./linux-amd64/helm /usr/local/bin/helm
+rm -rf linux-amd64 helm-v3.12.3-linux-amd64.tar.gz
+
+helm plugin install https://github.com/databus23/helm-diff
+
+
+curl -LO https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+
+#######
+
 kind create cluster --name=tns-multi-test --config=kindnodes.yml
 kind get clusters
 kubectl cluster-info --context kind-tns-multi-test
@@ -13,6 +39,9 @@ kubectl port-forward $(kubectl get pods --selector "app.kubernetes.io/name=traef
 
 helm uninstall traefik
 kubectl get deployments
+
+
+
 kind delete cluster --name=tns-multi-test
 
 
@@ -21,6 +50,13 @@ kind delete cluster --name=tns-multi-test
 kind create cluster --name=tns-multi-test --config=kindnodes.yml
 helm plugin install https://github.com/databus23/helm-diff
 helmfile apply
+
+kubectl get deployments --namespace wt
+kebectl get services --namespace wt
+kubectl get pods --namespace wt
+kubectl logs --namespace wt traefik-749d5f56f-s5vph
+
+
 helmfile delete
 
 # Current stack on my laptop
