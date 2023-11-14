@@ -1,0 +1,4 @@
+apiVersion: v2
+name: dashboard
+description: A Helm chart for WT Dashboard
+version: 0.1.0

@@ -1,0 +1,30 @@
+apiVersion: apps/v1    
+kind: Deployment    
+metadata:    
+  name: {{ .Chart.Name }}    
+spec:    
+  replicas: 1    
+  selector:    
+    matchLabels:    
+      app: {{ .Chart.Name }}    
+  template:    
+    metadata:    
+      labels:    
+        app: {{ .Chart.Name }}    
+    spec:    
+      containers:    
+        - name: {{ .Chart.Name }}    
+          image: wholetale/ngx-dashboard:latest
+          ports:    
+            - containerPort: 80 
+          env:    
+            - name: GIRDER_API_URI
+              value: {{ .Values.girderApiUrl | quote }}    
+            - name: AUTH_PROVIDER    
+              value: {{ .Values.authProvider }}
+            - name: DATAONE_URL
+              value: "https://cn.dataone.org/cn/v2"
+            - name: RTD_URL
+              value: {{ .Values.docsUrl }}
+            - name: DASHBOARD_DEV
+              value: {{ .Values.dashboardDev | quote }}

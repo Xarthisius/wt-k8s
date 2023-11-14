@@ -1,0 +1,4 @@
+girderApiUrl: https://girder.local.wholetale.org
+authProvider: Globus
+docsUrl: https://wholetale.readthedocs.io/en/latest
+dashboardDev: "false"

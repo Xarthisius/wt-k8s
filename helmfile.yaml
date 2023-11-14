@@ -16,6 +16,12 @@ releases:
     chart: ./charts/girder
     values:
       - values/girder-values.yaml
+  
+  - name: dashboard
+    namespace: wt
+    chart: ./charts/dashboard
+    values:
+      - values/dashboard-values.yaml
 
   - name: traefik
     namespace: wt
