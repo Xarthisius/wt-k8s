@@ -1,0 +1,16 @@
+auth:
+  enabled: false
+serviceAccount:
+  create: false
+image:
+  tag: 4.4
+
+{{if eq .Environment.Name "jhu"}}
+persistence:
+  enabled: true
+  name: data
+  accessMode: ReadWriteOnce
+  path: /bitnami/mongodb
+  size: 32Gi
+  annotations: {}
+{{end}}

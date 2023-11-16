@@ -10,9 +10,9 @@ ports:
       enabled: true
       certResolver: "letsencrypt"
       domains:
-        - main: "local.wholetale.org"
+        - main: {{ .Values | get "domain" "local.wholetale.org" }}
           sans:
-            - "*.local.wholetale.org"
+            - "*.{{ .Values | get "domain" "local.wholetale.org" }}"
 
 persistence:
   enabled: true
@@ -35,9 +35,9 @@ certResolvers:
 
 env:
   - name: GODADDY_API_KEY
-    value: api
+    value: {{ requiredEnv "WT_GODADDY_API_KEY" }}
   - name: GODADDY_API_SECRET
-    value: secret
+    value: {{ requiredEnv "WT_GODADDY_API_SECRET" }}
 
 ingressRoute:
   dashboard:
@@ -45,4 +45,4 @@ ingressRoute:
 
 logs:
   general:
-    level: DEBUG
+    level: INFO

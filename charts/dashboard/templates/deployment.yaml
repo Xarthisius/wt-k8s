@@ -18,7 +18,7 @@ spec:
           ports:    
             - containerPort: 80 
           env:    
-            - name: GIRDER_API_URI
+            - name: GIRDER_API_URL
               value: {{ .Values.girderApiUrl | quote }}    
             - name: AUTH_PROVIDER    
               value: {{ .Values.authProvider }}

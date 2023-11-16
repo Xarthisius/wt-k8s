@@ -7,10 +7,10 @@ service:
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: {{ .Values.ingressClass }}
   hosts:
-    - host: girder.local.wholetale.org
+    - host: girder.{{ .Values.domain }}
   tls: 
     - secretName: wt-girder-tls
       hosts:
-        - girder.local.wholetale.org
+        - girder.{{ .Values.domain }}

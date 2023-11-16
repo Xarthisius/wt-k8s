@@ -1,4 +1,0 @@
-auth:
-  enabled: false
-serviceAccount:
-  create: false

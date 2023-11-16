@@ -1,3 +1,13 @@
+environments:
+  local:
+    values:
+    - environments/local.yaml
+  jhu:
+    values:
+    - environments/jhu.yaml
+
+---
+
 repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
@@ -9,22 +19,31 @@ releases:
     namespace: wt
     chart: bitnami/mongodb
     values:
-      - values/mongodb-values.yaml
+      - values/mongodb-values.yaml.gotmpl
 
   - name: girder
     namespace: wt
     chart: ./charts/girder
     values:
-      - values/girder-values.yaml
+      - values/girder-values.yaml.gotmpl
+    needs:
+      - mongodb
   
   - name: dashboard
     namespace: wt
     chart: ./charts/dashboard
     values:
-      - values/dashboard-values.yaml
+      - values/dashboard-values.yaml.gotmpl
 
   - name: traefik
+    installed: {{ eq .Environment.Name "local" | toYaml }}
     namespace: wt
     chart: traefik/traefik
     values:
-      - values/traefik-values.yaml
+      - values/traefik-values.yaml.gotmpl
+
+#  - name: redis
+#    namespace: wt
+#    chart: bitnami/redis
+#    values:
+#      - values/redis-values.yaml
