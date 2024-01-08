@@ -1,0 +1,11 @@
+ingress:
+  enabled: true
+  className: {{ .Values.ingressClass }}
+  hosts: 
+    - registry.{{ .Values.domain }}
+  tls: 
+    - hosts:
+        - registry.{{ .Values.domain }}
+
+secrets:
+  htpasswd: fido:$2y$05$97Z.r3atRzkXd1pA8tm4pOjV1rIksBI4DOv8S5xH0GsWuf48M2pBq

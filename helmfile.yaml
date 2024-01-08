@@ -13,6 +13,8 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   - name: traefik
     url: https://traefik.github.io/charts
+  - name: twuni
+    url: https://helm.twun.io
 
 releases:
   - name: mongodb
@@ -54,3 +56,9 @@ releases:
     chart: ./charts/gwvolman
     needs:
       - redis
+
+  - name: registry
+    namespace: wt
+    chart: twuni/docker-registry
+    values:
+      - values/registry-values.yaml.gotmpl
