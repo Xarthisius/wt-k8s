@@ -28,6 +28,7 @@ releases:
       - values/girder-values.yaml.gotmpl
     needs:
       - mongodb
+      - redis
   
   - name: dashboard
     namespace: wt
@@ -42,8 +43,14 @@ releases:
     values:
       - values/traefik-values.yaml.gotmpl
 
-#  - name: redis
-#    namespace: wt
-#    chart: bitnami/redis
-#    values:
-#      - values/redis-values.yaml
+  - name: redis
+    namespace: wt
+    chart: bitnami/redis
+    values:
+      - values/redis-values.yaml
+
+  - name: gwvolman
+    namespace: wt
+    chart: ./charts/gwvolman
+    needs:
+      - redis

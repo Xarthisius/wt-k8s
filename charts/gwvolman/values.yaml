@@ -1,0 +1,2 @@
+celeryBackend: redis://redis-master.wt.svc.cluster.local/
+celeryBroker: redis://redis-master.wt.svc.cluster.local/

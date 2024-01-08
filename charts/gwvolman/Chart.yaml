@@ -1,0 +1,4 @@
+apiVersion: v2
+name: gwvolman
+description: A Helm chart for GWVolman (WT flavored)
+version: 0.1.0
