@@ -14,3 +14,11 @@ ingress:
     - secretName: wt-girder-tls
       hosts:
         - girder.{{ .Values.domain }}
+
+persistence:
+  enabled: true
+  name: girder-data
+  storageClass: manual
+  volumeName: girder-data
+
+development: {{ .Values | get "development" false }}

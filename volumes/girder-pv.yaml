@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: girder-data
+  namespace: wt
+  labels:
+    app: girder
+spec:
+  storageClassName: "manual"
+
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteMany
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: girder-data
+    namespace: wt
+  hostPath:
+    path: /var/local-path-provisioner/volumes/girder

@@ -1,2 +1,6 @@
 celeryBackend: redis://redis-master.wt.svc.cluster.local/
 celeryBroker: redis://redis-master.wt.svc.cluster.local/
+repo2dockerVersion: wholetale/repo2docker_wholetale:latest
+domain: local.wholetale.org
+registryUser: fido
+registryPass: secretpass

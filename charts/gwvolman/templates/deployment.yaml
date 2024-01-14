@@ -23,3 +23,14 @@ spec:
               value: {{ .Values.celeryBroker }}
             - name: GOSU_USER
               value: "1000:1000:1001"
+            - name: DEPLOYMENT
+              value: "k8s"
+            - name: REPO2DOCKER_VERSION
+              value: {{ .Values.repo2dockerVersion }}
+            - name: DOMAIN
+              value: {{ .Values.domain }}
+            - name: REGISTRY_USER
+              value: {{ .Values.registryUser }}
+            - name: REGISTRY_PASS
+              value: {{ .Values.registryPass }}
+          args: ["-Q", "celery,manager"]

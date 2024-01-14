@@ -1,1 +1,19 @@
 mongodbUri: "mongodb://mongodb:27017/girder"
+
+persistence:
+  # -- Enable persistence using Persistent Volume Claims
+  # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  # It can be used to store TLS certificates, see `storage` in certResolvers
+  enabled: false
+  name: girder-data
+  #  existingClaim: ""
+  accessMode: ReadWriteMany
+  size: 50Gi
+  # storageClass: ""
+  # volumeName: ""
+  path: /srv/data
+  annotations: {}
+  # -- Only mount a subpath of the Volume into the pod
+  # subPath: ""
+
+development: false

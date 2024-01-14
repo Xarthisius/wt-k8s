@@ -49,6 +49,9 @@ kind delete cluster --name=tns-multi-test
 
 kind create cluster --name=tns-multi-test --config=kindnodes.yml
 helm plugin install https://github.com/databus23/helm-diff
+
+kubectl create secret --namespace=wt docker-registry local-registry-secret --docker-server=registry.wt.xarthisius.xyz --docker-username=fido --docker-password=secretpass --docker-email=xarthisius.kk@gmail.com
+
 helmfile apply
 
 kubectl get deployments --namespace wt

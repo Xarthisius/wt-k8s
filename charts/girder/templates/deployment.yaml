@@ -23,8 +23,66 @@ spec:
               value: {{ .Values.mongodbUri | quote }}
             - name: GIRDER_PORT
               value: "8080"
+            {{- if .Values.development }}
+            - name: DEVELOPMENT
+              value: "true"
+            {{- end }}
           args: ["girder", "serve", "--database", {{ .Values.mongodbUri | quote }}]
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "/girder/setup.sh"]
+                command: ["/bin/sh", "-c", "/girder/setup.sh &> /girder/setup.log"]
+          volumeMounts:
+            - name: {{ .Values.persistence.name }}
+              mountPath: {{ .Values.persistence.path }}
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+            {{- if .Values.development }}
+            - name: girder-src
+              mountPath: /girder/plugins/wholetale
+              subPath: wholetale
+            - name: girder-src
+              mountPath: /girder/plugins/wt_data_manager
+              subPath: wt_data_manager
+            - name: girder-src
+              mountPath: /girder/plugins/wt_home_dir
+              subPath: wt_home_dir
+            - name: girder-src
+              mountPath: /girder/plugins/wt_versioning
+              subPath: wt_versioning
+            - name: girder-src
+              mountPath: /girder/plugins/globus_handler
+              subPath: globus_handler
+            - name: girder-src
+              mountPath: /girder/plugins/virtual_resources
+              subPath: virtual_resources
+            - name: girder-src
+              mountPath: /girder/plugins/sem_viewer
+              subPath: sem_viewer
+            - name: girder-src
+              mountPath: /girder/plugins/table_view
+              subPath: table_view
+            - name: girder-src
+              mountPath: /girder/plugins/dataflows
+              subPath: dataflows
+            - name: girder-src
+              mountPath: /gwvolman
+              subPath: gwvolman
+            - name: girder-src
+              mountPath: /girderfs
+              subPath: girderfs
+            {{- end }}
+      volumes:
+        - name: {{ .Values.persistence.name }}
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ default ("girder-data") .Values.persistence.existingClaim }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.development }}
+        - name: girder-src
+          persistentVolumeClaim:
+            claimName: girder-src
+        {{- end }}

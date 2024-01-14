@@ -16,9 +16,11 @@ ports:
 
 persistence:
   enabled: true
-  name: data
+  name: traefik-data
   accessMode: ReadWriteOnce
-  size: 128Mi
+  size: 5Mi
+  storageClass: manual
+  volumeName: traefik-data
   path: /data
   annotations: {}
 
@@ -26,18 +28,35 @@ certResolvers:
   letsencrypt:
     email: xarthisius.kk@gmail.com
     dnsChallenge:
-      provider: godaddy
+      provider: cloudflare
       delayBeforeCheck: 1m0s
       resolvers:
         - 1.1.1.1
         - 8.8.8.8
     storage: /data/acme.json
 
+# for WSS in jupyter
+extraObjects:
+  - apiVersion: traefik.io/v1alpha1
+    kind: Middleware
+    metadata:
+      name: ssl-header
+      namespace: wt
+    spec:
+      headers:
+        customRequestHeaders:
+          Connection: keep-alive, Upgrade
+          Upgrade: WebSocket
+        customResponseHeaders:
+          Content-Security-Policy: frame-ancestors 'self' dashboard.{{ .Values | get "domain" "local.wholetale.org" }}
+
 env:
-  - name: GODADDY_API_KEY
-    value: {{ requiredEnv "WT_GODADDY_API_KEY" }}
-  - name: GODADDY_API_SECRET
-    value: {{ requiredEnv "WT_GODADDY_API_SECRET" }}
+  - name: CF_DNS_API_TOKEN
+    value: {{ requiredEnv "WT_CLOUDFLARE_TOKEN" }}
+#  - name: GODADDY_API_KEY
+#    value: {{ requiredEnv "WT_GODADDY_API_KEY" }}
+#  - name: GODADDY_API_SECRET
+#    value: {{ requiredEnv "WT_GODADDY_API_SECRET" }}
 
 ingressRoute:
   dashboard:

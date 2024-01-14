@@ -5,6 +5,9 @@ environments:
   jhu:
     values:
     - environments/jhu.yaml
+  home:
+    values:
+    - environments/home.yaml
 
 ---
 
@@ -39,7 +42,7 @@ releases:
       - values/dashboard-values.yaml.gotmpl
 
   - name: traefik
-    installed: {{ eq .Environment.Name "local" | toYaml }}
+    installed: {{ eq .Environment.Name "home" | toYaml }}
     namespace: wt
     chart: traefik/traefik
     values:
@@ -56,6 +59,8 @@ releases:
     chart: ./charts/gwvolman
     needs:
       - redis
+    values:
+      - values/gwvolman-values.yaml.gotmpl
 
   - name: registry
     namespace: wt

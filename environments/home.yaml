@@ -1,0 +1,4 @@
+domain: wt.xarthisius.xyz
+releaseName: home
+ingressClass: traefik
+development: true
