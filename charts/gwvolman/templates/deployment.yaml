@@ -33,4 +33,21 @@ spec:
               value: {{ .Values.registryUser }}
             - name: REGISTRY_PASS
               value: {{ .Values.registryPass }}
+            - name: GIRDERFS_IMAGE
+              value: {{ .Values.girderfsImage }}
           args: ["-Q", "celery,manager"]
+          volumeMounts:
+            {{- if .Values.development }}
+            - name: girder-src
+              mountPath: /gwvolman
+              subPath: gwvolman
+            - name: girder-src
+              mountPath: /girderfs
+              subPath: girderfs
+            {{- end }}
+      volumes:
+        {{- if .Values.development }}
+        - name: girder-src
+          persistentVolumeClaim:
+            claimName: girder-src
+        {{- end }}

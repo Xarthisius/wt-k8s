@@ -69,8 +69,8 @@ plugins = [
     "wt_versioning",
     "sem_viewer",
     "table_view",
-#    "minio_assetstore",
-#    "synced_folders",
+    #    "minio_assetstore",
+    #    "synced_folders",
 ]
 
 r = requests.put(
@@ -115,8 +115,14 @@ settings = [
     {"key": "core.cookie_domain", "value": ".wt.xarthisius.xyz"},
     {"key": "core.secure_cookie", "value": True},
     {"key": "worker.api_url", "value": "http://girder:8080/api/v1"},
-    {"key": "worker.broker", "value": "redis://redis-master.wt.svc.cluster.local:6379/"},
-    {"key": "worker.backend", "value": "redis://redis-master.wt.svc.cluster.local:6379/"},
+    {
+        "key": "worker.broker",
+        "value": "redis://redis-master.wt.svc.cluster.local:6379/",
+    },
+    {
+        "key": "worker.backend",
+        "value": "redis://redis-master.wt.svc.cluster.local:6379/",
+    },
     {"key": "oauth.globus_client_id", "value": os.environ.get("GLOBUS_CLIENT_ID")},
     {
         "key": "oauth.globus_client_secret",
@@ -135,13 +141,21 @@ settings = [
     },
     {
         "key": "wholetale.zenodo_extra_hosts",
-        "value": ["https://sandbox.zenodo.org/record/"]
+        "value": ["https://sandbox.zenodo.org/record/"],
     },
     {"key": "dm.private_storage_path", "value": "/srv/data/ps"},
     {"key": "wthome.homedir_root", "value": "/srv/data/homes"},
     {"key": "wthome.taledir_root", "value": "/srv/data/workspaces"},
     {"key": "wtversioning.runs_root", "value": "/srv/data/runs"},
     {"key": "wtversioning.versions_root", "value": "/srv/data/versions"},
+    {
+        "key": "wholetale.mounts",
+        "value": [
+            {"type": "data", "protocol": "girderfs", "location": "data"},
+            {"type": "home", "protocol": "webdav", "location": "home"},
+            {"type": "workspace", "protocol": "webdav", "location": "workspace"},
+        ],
+    },
 ]
 settings += [
     {"key": "wholetale.dashboard_link_title", "value": "Tale Dashboard"},

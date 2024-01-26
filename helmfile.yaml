@@ -50,6 +50,7 @@ releases:
 
   - name: redis
     namespace: wt
+    version: 18.8.2
     chart: bitnami/redis
     values:
       - values/redis-values.yaml

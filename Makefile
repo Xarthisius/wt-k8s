@@ -36,3 +36,9 @@ clean:
 	kubectl delete -f device-manager-setup/01-smarter-device-manager-ns.yaml
 	kubectl delete secret -n wt local-registry-secret
 	kubectl delete namespace wt
+
+reset_girder:
+	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- \
+		python3 -c 'from girder.models import getDbConnection;getDbConnection().drop_database("girder")'
+	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- \
+	  touch /girder/girder/__init__.py
