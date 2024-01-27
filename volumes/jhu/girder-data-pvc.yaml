@@ -1,0 +1,18 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: girder-data
+  namespace: "wt"
+  labels:
+    app.kubernetes.io/instance: girder
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: girder
+    app.kubernetes.io/version: 7.0.5
+    app.kubernetes.io/component: girder
+    app: girder
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
