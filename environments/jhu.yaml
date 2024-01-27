@@ -1,3 +1,10 @@
 domain: test.htmdec.org
-releaseName: stage
+releaseName: jhu
 ingressClass: nginx
+development: false
+accessMode: ReadWriteOnce
+girderFSMountType: remote
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 4096m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 4M
