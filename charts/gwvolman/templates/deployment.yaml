@@ -35,10 +35,10 @@ spec:
               value: {{ .Values.registryPass }}
             - name: GIRDERFS_IMAGE
               value: {{ .Values.girderfsImage }}
-            - name: GIRDERFS_MOUNT_TYPE
-              value: {{ .Values.girderFSMountType }}
             - name: INGRESS_CLASS
               value: {{ .Values.ingressClass }}
+            - name: GIRDERFS_MOUNT_TYPE
+              value: {{ .Values.girderFSMountType }}
           args: ["-Q", "celery,manager"]
           volumeMounts:
             {{- if .Values.development }}
