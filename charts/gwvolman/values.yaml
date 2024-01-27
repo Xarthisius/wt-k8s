@@ -5,3 +5,4 @@ domain: local.wholetale.org
 registryUser: fido
 registryPass: secretpass
 girderfsImage: wholetale/girderfs:k8s
+ingressClass: traefik
