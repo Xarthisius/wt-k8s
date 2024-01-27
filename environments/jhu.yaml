@@ -1,5 +1,4 @@
 domain: imqcam.org
-#domain: test.htmdec.org
 releaseName: jhu
 ingressClass: nginx
 development: false
