@@ -6,11 +6,16 @@ ingress:
   tls: 
     - hosts:
         - registry.{{ .Values.domain }}
-
+  {{- if .Values.ingress.annotations }}
+  annotations:
+     {{- with .Values.ingress.annotations }}
+     {{- . | toYaml | nindent 4 }}
+     {{- end }}
+  {{- end}}
 secrets:
   htpasswd: fido:$2y$05$97Z.r3atRzkXd1pA8tm4pOjV1rIksBI4DOv8S5xH0GsWuf48M2pBq
 
 persistence:
   enabled: true
-  storageClass: manual
-  existingClaim: registry-data
+  storageClass: local-path
+  accessMode: {{ .Values | get "accessMode" "ReadWriteMany" }}

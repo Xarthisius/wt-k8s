@@ -3,12 +3,14 @@
 prep:
 	kubectl create namespace wt
 	kubectl create secret -n wt docker-registry local-registry-secret \
-		--docker-server=registry.wt.xarthisius.xyz \
+		--docker-server=registry.test.htmdec.org \
 		--docker-username=fido \
 		--docker-password=secretpass \
 		--docker-email=xarthisius.kk@gmail.com
-	kubectl apply -f volumes/
-	kubectl label node tns-multi-test-worker smarter-device-manager=enabled || /bin/true
+	kubectl apply -f volumes/jhu/
+	kubectl label node dsp058.idies.jhu.edu smarter-device-manager=enabled || /bin/true
+	kubectl label node dsp057.idies.jhu.edu smarter-device-manager=enabled || /bin/true
+	kubectl label node dsp059.idies.jhu.edu smarter-device-manager=enabled || /bin/true
 	kubectl apply -f device-manager-setup/01-smarter-device-manager-ns.yaml
 	kubectl apply -f device-manager-setup/02-smarter-device-manager-configmap.yaml
 	kubectl apply -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml
@@ -30,12 +32,12 @@ dev:
 	./setup_girder.py
 
 clean:
-	kubectl delete -f volumes/
-	kubectl delete -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml
-	kubectl delete -f device-manager-setup/02-smarter-device-manager-configmap.yaml
-	kubectl delete -f device-manager-setup/01-smarter-device-manager-ns.yaml
-	kubectl delete secret -n wt local-registry-secret
-	kubectl delete namespace wt
+	kubectl delete -f volumes/ || /bin/true
+	kubectl delete -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml || /bin/true
+	kubectl delete -f device-manager-setup/02-smarter-device-manager-configmap.yaml || /bin/true
+	kubectl delete -f device-manager-setup/01-smarter-device-manager-ns.yaml || /bin/true
+	kubectl delete secret -n wt local-registry-secret || /bin/true
+	kubectl delete namespace wt || /bin/true
 
 reset_girder:
 	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- \

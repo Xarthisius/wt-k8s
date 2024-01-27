@@ -18,12 +18,12 @@ headers = {"Content-Type": "application/json", "Accept": "application/json"}
 
 def final_msg():
     print("-------------- You should be all set!! -------------")
-    print("try going to https://girder.wt.xarthisius.xyz and log in with: ")
+    print("try going to https://girder.test.htmdec.org and log in with: ")
     print("  user : %s" % params["login"])
     print("  pass : %s" % params["password"])
 
 
-api_url = "https://girder.wt.xarthisius.xyz/api/v1"
+api_url = "https://girder.test.htmdec.org/api/v1"
 
 # Give girder time to start
 while True:
@@ -101,7 +101,7 @@ print("Setting up Plugin")
 settings = [
     {
         "key": "core.cors.allow_origin",
-        "value": "https://dashboard.wt.xarthisius.xyz,http://localhost:4200,https://legacy.wt.xarthisius.xyz",
+        "value": "https://dashboard.test.htmdec.org,http://localhost:4200,https://legacy.test.htmdec.org",
     },
     {
         "key": "core.cors.allow_headers",
@@ -112,7 +112,7 @@ settings = [
             "X-Forwarded-Host, Remote-Addr, Cache-Control"
         ),
     },
-    {"key": "core.cookie_domain", "value": ".wt.xarthisius.xyz"},
+    {"key": "core.cookie_domain", "value": ".test.htmdec.org"},
     {"key": "core.secure_cookie", "value": True},
     {"key": "worker.api_url", "value": "http://girder:8080/api/v1"},
     {

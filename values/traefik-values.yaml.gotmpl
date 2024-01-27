@@ -3,7 +3,7 @@ service:
 
 ports:
   web:
-    nodePort: 30000
+    nodePort: 80
   websecure:
     nodePort: 30001
     tls:
@@ -19,7 +19,7 @@ persistence:
   name: traefik-data
   accessMode: ReadWriteOnce
   size: 5Mi
-  storageClass: manual
+  storageClass: local-path
   volumeName: traefik-data
   path: /data
   annotations: {}

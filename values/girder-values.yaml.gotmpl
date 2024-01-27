@@ -17,8 +17,6 @@ ingress:
 
 persistence:
   enabled: true
-  name: girder-data
-  storageClass: manual
-  volumeName: girder-data
+  accessMode: {{ .Values | get "accessMode" "ReadWriteMany" }}
 
 development: {{ .Values | get "development" false }}
