@@ -14,7 +14,7 @@ prep:
 	kubectl apply -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml
 
 dev:
-	kubectl exec -n wt -ti $$(kubectl get pods -n wt -l app=girder -o name) girder-install plugin \
+	kubectl exec -n wt -ti $$(kubectl get pods -n wt -l app=girder -o name) -- girder-install plugin \
 		plugins/wt_data_manager \
 		plugins/wholetale \
 		plugins/wt_home_dir \
