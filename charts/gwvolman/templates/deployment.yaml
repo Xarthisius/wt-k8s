@@ -39,6 +39,8 @@ spec:
               value: {{ .Values.girderFSMountType }}
             - name: INGRESS_CLASS
               value: {{ .Values.ingressClass }}
+            - name: WT_VOLUMES_PATH
+              value: {{ .Values.volumesPath }}
           args: ["-Q", "celery,manager"]
           volumeMounts:
             {{- if .Values.development }}

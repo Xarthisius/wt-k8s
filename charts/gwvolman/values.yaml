@@ -7,3 +7,4 @@ registryPass: secretpass
 girderfsImage: wholetale/girderfs:k8s
 ingressClass: traefik
 girderFSMountType: direct
+volumesPath: /srv/data
