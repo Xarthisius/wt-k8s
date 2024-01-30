@@ -8,6 +8,12 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingressClass }}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 4096M
+    nginx.ingress.kubernetes.io/proxy-body-size: 4096M
+
   hosts:
     - host: girder.{{ .Values.domain }}
   tls: 
