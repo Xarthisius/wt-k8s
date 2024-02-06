@@ -13,12 +13,6 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
     nginx.ingress.kubernetes.io/client-body-buffer-size: 4096M
     nginx.ingress.kubernetes.io/proxy-body-size: 4096M
-  hosts:
-    - host: girder.{{ .Values.domain }}
-  tls: 
-    - secretName: wt-girder-tls
-      hosts:
-        - girder.{{ .Values.domain }}
 
 persistence:
   enabled: true
