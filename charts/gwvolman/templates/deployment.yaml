@@ -28,7 +28,6 @@ spec:
           type: RuntimeDefault
       containers:
         - name: {{ .Chart.Name }}
-          # image: wholetale/gwvolman@sha256:78ec86500e20bcae807f05c59a0bbfb0d9c0752b0a22c3c3277f7abd9577c924
           image: {{ .Values.image }}
           resources:
             limits:
@@ -48,6 +47,8 @@ spec:
               value: "k8s"
             - name: GOSU_USER
               value: "0:0"
+            - name: DEV
+              value: {{ .Values.development | quote }}
             - name: REPO2DOCKER_VERSION
               value: {{ .Values.repo2dockerVersion }}
             - name: DOMAIN
@@ -68,6 +69,12 @@ spec:
               value: xarth-dockerhub-creds
             - name: R2D_BASE_IMAGE
               value: {{ .Values.r2dBaseImage }}
+            {{- if .Values.mounts.nfs }}
+            - name: NFS_SERVER
+              value: {{ .Values.mounts.nfs.server }}
+            - name: NFS_PATH
+              value: {{ .Values.mounts.nfs.path }}
+            {{- end }}
           args: ["-Q", "celery,manager", "-c", "3"]
           volumeMounts:
             {{- if .Values.development }}
