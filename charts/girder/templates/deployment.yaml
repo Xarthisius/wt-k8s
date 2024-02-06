@@ -26,6 +26,8 @@ spec:
               value: {{ .Values.mongodbUri | quote }}
             - name: GIRDER_PORT
               value: "8080"
+            - name: DASHBOARD_URL
+              value: "https://dashboard.{{ .Values.domain }}"
             {{- if .Values.development }}
             - name: DEVELOPMENT
               value: "true"
