@@ -14,13 +14,6 @@ ingress:
     nginx.ingress.kubernetes.io/client-body-buffer-size: 4096M
     nginx.ingress.kubernetes.io/proxy-body-size: 4096M
 
-  hosts:
-    - host: girder.{{ .Values.domain }}
-  tls: 
-    - secretName: wt-girder-tls
-      hosts:
-        - girder.{{ .Values.domain }}
-
 persistence:
   enabled: true
   name: girder-data
@@ -28,3 +21,4 @@ persistence:
   volumeName: girder-data
 
 development: {{ .Values | get "development" false }}
+domain: {{ .Values.domain }}
