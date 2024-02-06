@@ -15,7 +15,7 @@ spec:
       serviceAccountName: gwvolman-service-account
       containers:
         - name: {{ .Chart.Name }}
-          image: wholetale/gwvolman:k8s
+          image: wholetale/gwvolman@sha256:6c4d362d0ebebee53ea9ecab79a132f1e772be18957634428e62e0d5e5d56894
           env:
             - name: CELERY_BACKEND
               value: {{ .Values.celeryBackend }}
@@ -25,6 +25,8 @@ spec:
               value: "1000:1000:1001"
             - name: DEPLOYMENT
               value: "k8s"
+            - name: DEV
+              value: {{ .Values.development | quote }}
             - name: REPO2DOCKER_VERSION
               value: {{ .Values.repo2dockerVersion }}
             - name: DOMAIN
@@ -41,6 +43,12 @@ spec:
               value: {{ .Values.ingressClass }}
             - name: WT_VOLUMES_PATH
               value: {{ .Values.volumesPath }}
+            {{- if .Values.mounts.nfs }}
+            - name: NFS_SERVER
+              value: {{ .Values.mounts.nfs.server }}
+            - name: NFS_PATH
+              value: {{ .Values.mounts.nfs.path }}
+            {{- end }}
           args: ["-Q", "celery,manager"]
           volumeMounts:
             {{- if .Values.development }}
