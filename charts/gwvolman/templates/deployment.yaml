@@ -13,18 +13,41 @@ spec:
         app: {{ .Chart.Name }}
     spec:
       serviceAccountName: gwvolman-service-account
+      imagePullSecrets:
+        - name: xarth-dockerhub-creds
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: {{ .Chart.Name }}
-          image: wholetale/gwvolman:k8s
+          # image: wholetale/gwvolman@sha256:78ec86500e20bcae807f05c59a0bbfb0d9c0752b0a22c3c3277f7abd9577c924
+          image: {{ .Values.image }}
+          resources:
+            limits:
+              cpu: 750m
+              ephemeral-storage: 50Mi
+              memory: 512Mi
+            requests:
+              cpu: 700m
+              ephemeral-storage: 45Mi
+              memory: 512Mi
           env:
             - name: CELERY_BACKEND
               value: {{ .Values.celeryBackend }}
             - name: CELERY_BROKER
               value: {{ .Values.celeryBroker }}
-            - name: GOSU_USER
-              value: "1000:1000:1001"
             - name: DEPLOYMENT
               value: "k8s"
+            - name: GOSU_USER
+              value: "0:0"
             - name: REPO2DOCKER_VERSION
               value: {{ .Values.repo2dockerVersion }}
             - name: DOMAIN
@@ -39,9 +62,13 @@ spec:
               value: {{ .Values.girderFSMountType }}
             - name: INGRESS_CLASS
               value: {{ .Values.ingressClass }}
-            - name: GIRDERFS_MOUNT_TYPE
-              value: {{ .Values.girderFSMountType }}
-          args: ["-Q", "celery,manager"]
+            - name: WT_VOLUMES_PATH
+              value: {{ .Values.volumesPath }}
+            - name: DOCKER_PULL_SECRET
+              value: xarth-dockerhub-creds
+            - name: R2D_BASE_IMAGE
+              value: {{ .Values.r2dBaseImage }}
+          args: ["-Q", "celery,manager", "-c", "3"]
           volumeMounts:
             {{- if .Values.development }}
             - name: girder-src
@@ -51,6 +78,11 @@ spec:
               mountPath: /girderfs
               subPath: girderfs
             {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
       volumes:
         {{- if .Values.development }}
         - name: girder-src

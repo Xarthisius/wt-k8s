@@ -12,11 +12,26 @@ spec:
       labels:    
         app: {{ .Chart.Name }}    
     spec:    
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
       containers:    
         - name: {{ .Chart.Name }}    
-          image: wholetale/ngx-dashboard:latest
+          image: xarthisius/wt-dashboard@sha256:2558a58f7d225c4c01ad9ecff4586ce5441c6269853c799c5b539e088f43d3ae
           ports:    
-            - containerPort: 80 
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 750m
+              memory: 768Mi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 50Mi
+              memory: 512Mi
           env:    
             - name: GIRDER_API_URL
               value: {{ .Values.girderApiUrl | quote }}    
@@ -28,3 +43,8 @@ spec:
               value: {{ .Values.docsUrl }}
             - name: DASHBOARD_DEV
               value: {{ .Values.dashboardDev | quote }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]

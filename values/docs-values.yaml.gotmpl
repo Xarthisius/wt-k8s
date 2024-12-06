@@ -1,5 +1,5 @@
 service:
-  port: 8080
+  port: 80
   protocol: http
 
 ingress:
@@ -7,10 +7,8 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingressClass }}
   hosts:
-    - host: dashboard.{{ .Values.domain }}
+    - host: docs.{{ .Values.domain }}
   tls: 
     - secretName: wt-dashboard-tls
       hosts:
-        - dashboard.{{ .Values.domain }}
-
-girderApiUrl: https://girder.{{ .Values.domain }}/api/v1
+        - docs.{{ .Values.domain }}

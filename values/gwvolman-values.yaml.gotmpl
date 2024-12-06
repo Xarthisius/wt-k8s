@@ -1,5 +1,9 @@
-repo2dockerVersion: wholetale/repo2docker_wholetale:k8s
+# repo2dockerVersion: wholetale/repo2docker_wholetale@sha256:ccd1d51629e891df6336da7db42d5e888eb1dd173503f7a4775a3a5fd8520be4
+image: xarthisius/gwvolman@sha256:663307df6f1ede6498de9e0e8b2239fe3c2d8d371d76647edbaa374a498b2253
+repo2dockerVersion: xarthisius/repo2docker_wholetale@sha256:079e7a713c60818bf007df32571601fc85959426a9bd20fb17cf109800819bc0
 domain: {{ .Values | get "domain" "local.wholetale.org" }}
 development: {{ .Values | get "development" false }}
 ingressClass: {{ .Values | get "ingressClass" "traefik" }}
+girderfsImage: wholetale/girderfs@sha256:6e32dc5df065df79c4fa49c21b70747ce2484dd77ab0dbfeea6d550aa51ba4b2
 girderFSMountType: {{ .Values | get "girderFSMountType" "direct" }}
+r2dBaseImage: registry.imqcam.org/buildpack-deps:jammy

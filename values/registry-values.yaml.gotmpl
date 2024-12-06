@@ -3,7 +3,7 @@ ingress:
   className: {{ .Values.ingressClass }}
   hosts: 
     - registry.{{ .Values.domain }}
-  tls: 
+  tlas:
     - hosts:
         - registry.{{ .Values.domain }}
   {{- if .Values.ingress.annotations }}
@@ -15,7 +15,37 @@ ingress:
 secrets:
   htpasswd: fido:$2y$05$97Z.r3atRzkXd1pA8tm4pOjV1rIksBI4DOv8S5xH0GsWuf48M2pBq
 
+resources:
+  limits:
+    cpu: 750m
+    ephemeral-storage: 2Mi
+    memory: 768Mi
+  requests:
+    cpu: 500m
+    ephemeral-storage: 1Mi
+    memory: 512Mi
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  privileged: false
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  capabilities:
+    drop: ["ALL"]
+
 persistence:
   enabled: true
-  storageClass: local-path
+  storageClass: ""
+  existingClaim: materials-portal-01
+  subPath: registry
   accessMode: {{ .Values | get "accessMode" "ReadWriteMany" }}
+  deleteEnabled: true

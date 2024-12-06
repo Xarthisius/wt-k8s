@@ -1,14 +1,31 @@
+global:
+  namespaceOverride: imqcam
+
+namespaceOverride: imqcam
+
 auth:
   enabled: false
 serviceAccount:
   create: false
-image:
-  tag: 4.4
+networkPolicy:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 750m
+    ephemeral-storage: 100Mi
+    memory: 768Mi
+  requests:
+    cpu: 500m
+    ephemeral-storage: 50Mi
+    memory: 512Mi
 
 {{if eq .Environment.Name "jhu"}}
 persistence:
   enabled: true
-  name: data
+  name: mongo-data
+  existingClaim: materials-portal-01
+  subPath: mongodb
   accessMode: ReadWriteOnce
   path: /bitnami/mongodb
   size: 32Gi

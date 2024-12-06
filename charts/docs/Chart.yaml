@@ -1,0 +1,4 @@
+apiVersion: v2
+name: docs
+description: A Helm chart for deployment docs
+version: 0.1.0

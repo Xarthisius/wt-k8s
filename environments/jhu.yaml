@@ -1,9 +1,10 @@
-domain: test.htmdec.org
+domain: imqcam.org
+#domain: test.htmdec.org
 releaseName: jhu
 ingressClass: nginx
 development: false
-accessMode: ReadWriteOnce
-girderFSMountType: remote
+accessMode: ReadWriteMany
+girderFSMountType: direct
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 4096m

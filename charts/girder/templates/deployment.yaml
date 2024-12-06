@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
-  namespace: "{{ .Values.namespace | default .Release.Namespace }}"
 spec:
   replicas: 1
   selector:
@@ -14,16 +13,38 @@ spec:
         app: {{ .Chart.Name }}
     spec:
       serviceAccountName: girder-service-account
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: {{ .Chart.Name }}
-          image: wholetale/girder:k8s
+          image: xarthisius/girder@sha256:4045270d9422f07c1f787bfb0bf84f968d9273fdf90f3dfc8452a3cb36332352
           ports:
             - containerPort: 8080
+          resources:
+            limits:
+              cpu: 750m
+              ephemeral-storage: 150Mi
+              memory: 768Mi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 50Mi
+              memory: 512Mi
           env:
             - name: MONGODB_URI
               value: {{ .Values.mongodbUri | quote }}
             - name: GIRDER_PORT
               value: "8080"
+            - name: DASHBOARD_URL
+              value: "https://dashboard.{{ .Values.domain }}"
             {{- if .Values.development }}
             - name: DEVELOPMENT
               value: "true"
@@ -36,9 +57,7 @@ spec:
           volumeMounts:
             - name: {{ .Values.persistence.name }}
               mountPath: {{ .Values.persistence.path }}
-              {{- if .Values.persistence.subPath }}
-              subPath: {{ .Values.persistence.subPath }}
-              {{- end }}
+              subPath: {{ default ("girder") .Values.persistence.subPath }}
             {{- if .Values.development }}
             - name: girder-src
               mountPath: /girder/plugins/wholetale
@@ -74,6 +93,11 @@ spec:
               mountPath: /girderfs
               subPath: girderfs
             {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
       volumes:
         - name: {{ .Values.persistence.name }}
           {{- if .Values.persistence.enabled }}

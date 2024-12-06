@@ -21,13 +21,16 @@ repositories:
 
 releases:
   - name: mongodb
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
+    version: 14.7.2
     chart: bitnami/mongodb
     values:
       - values/mongodb-values.yaml.gotmpl
 
   - name: girder
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     chart: ./charts/girder
     values:
       - values/girder-values.yaml.gotmpl
@@ -36,27 +39,38 @@ releases:
       - redis
   
   - name: dashboard
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     chart: ./charts/dashboard
     values:
       - values/dashboard-values.yaml.gotmpl
 
+  - name: docs
+    namespace: imqcam
+    createNamespace: false
+    chart: ./charts/docs
+    values:
+      - values/docs-values.yaml.gotmpl
+
   - name: traefik
     installed: {{ eq .Environment.Name "home" | toYaml }}
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     chart: traefik/traefik
     values:
       - values/traefik-values.yaml.gotmpl
 
   - name: redis
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     version: 18.8.2
     chart: bitnami/redis
     values:
       - values/redis-values.yaml
 
   - name: gwvolman
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     chart: ./charts/gwvolman
     needs:
       - redis
@@ -64,7 +78,8 @@ releases:
       - values/gwvolman-values.yaml.gotmpl
 
   - name: registry
-    namespace: wt
+    namespace: imqcam
+    createNamespace: false
     chart: twuni/docker-registry
     values:
       - values/registry-values.yaml.gotmpl

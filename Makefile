@@ -16,7 +16,7 @@ prep:
 	kubectl apply -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml
 
 dev:
-	kubectl exec -n wt -ti $$(kubectl get pods -n wt -l app=girder -o name) girder-install plugin \
+	kubectl exec -n wt -ti $$(kubectl get pods -n wt -l app=girder -o name) -- girder-install plugin \
 		plugins/wt_data_manager \
 		plugins/wholetale \
 		plugins/wt_home_dir \
@@ -26,13 +26,13 @@ dev:
 		plugins/sem_viewer \
 		plugins/dataflows \
 		plugins/table_view
-	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- girder-install web --dev --plugins=oauth,gravatar,jobs,worker,wt_data_manager,wholetale,wt_home_dir,globus_handler,sem_viewer,table_view,dataflows
-	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- pip install -r /gwvolman/requirements.txt -e /gwvolman
-	kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- pip install -e /girderfs
+	# kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- girder-install web --dev --plugins=oauth,gravatar,jobs,worker,wt_data_manager,wholetale,wt_home_dir,globus_handler,sem_viewer,table_view,dataflows
+	# kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- pip install -r /gwvolman/requirements.txt -e /gwvolman
+	# kubectl exec -n wt -ti $$(kubectl get pods -n wt  -l app=girder -o name) -- pip install -e /girderfs
 	./setup_girder.py
 
 clean:
-	kubectl delete -f volumes/ || /bin/true
+	kubectl delete -f volumes/jhu || /bin/true
 	kubectl delete -f device-manager-setup/03-smarter-device-manager-ds-with-configmap.yaml || /bin/true
 	kubectl delete -f device-manager-setup/02-smarter-device-manager-configmap.yaml || /bin/true
 	kubectl delete -f device-manager-setup/01-smarter-device-manager-ns.yaml || /bin/true

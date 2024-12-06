@@ -1,3 +1,23 @@
 architecture: standalone
 auth:
   enabled: false
+serviceAccount:
+  create: false
+networkPolicy:
+  enabled: false
+
+master:
+  resources:
+    limits:
+      cpu: 750m
+      ephemeral-storage: 4Mi
+      memory: 768Mi
+    requests:
+      cpu: 500m
+      ephemeral-storage: 2Mi
+      memory: 512Mi
+
+  persistence:
+    enabled: true
+    existingClaim: materials-portal-01
+    subPath: redis

@@ -7,15 +7,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tls }}
-  tls:
-  {{- range .Values.ingress.tls }}
-    - hosts:
-      {{- range .hosts }}
-        - {{ . | quote }}
-      {{- end }}
-  {{- end }}
-{{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
@@ -27,6 +18,6 @@ spec:
               service:
                 name: dashboard
                 port:
-                  number: 80
+                  number: 8080
   {{- end }}
 
