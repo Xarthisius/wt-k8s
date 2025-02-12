@@ -39,16 +39,14 @@ spec:
               ephemeral-storage: 45Mi
               memory: 512Mi
           env:
-            - name: CELERY_BACKEND
+            - name: GIRDER_WORKER_BACKEND
               value: {{ .Values.celeryBackend }}
-            - name: CELERY_BROKER
+            - name: GIRDER_WORKER_BROKER
               value: {{ .Values.celeryBroker }}
+            - name: BUILDER_URL
+              value: {{ .Values.builderUrl }}
             - name: DEPLOYMENT
               value: "k8s"
-            - name: GOSU_USER
-              value: "0:0"
-            - name: DEV
-              value: {{ .Values.development | quote }}
             - name: REPO2DOCKER_VERSION
               value: {{ .Values.repo2dockerVersion }}
             - name: DOMAIN
@@ -69,6 +67,12 @@ spec:
               value: xarth-dockerhub-creds
             - name: R2D_BASE_IMAGE
               value: {{ .Values.r2dBaseImage }}
+            - name: NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: GIRDER_EXISTING_CLAIM
+              value: {{ .Values.existingClaim }}
+            - name: GIRDER_EXISTING_CLAIM_SUBPATH
+              value: {{ .Values.existingClaimSubPath }}
             {{- if .Values.mounts.nfs }}
             - name: NFS_SERVER
               value: {{ .Values.mounts.nfs.server }}

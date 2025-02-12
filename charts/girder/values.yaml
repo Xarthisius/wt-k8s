@@ -1,4 +1,6 @@
 mongodbUri: "mongodb://mongodb:27017/girder"
+celeryBackend: redis://redis-master/
+celeryBroker: redis://redis-master/
 
 persistence:
   # -- Enable persistence using Persistent Volume Claims

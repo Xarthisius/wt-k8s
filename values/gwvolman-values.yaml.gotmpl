@@ -1,8 +1,10 @@
-image: xarthisius/gwvolman@sha256:663307df6f1ede6498de9e0e8b2239fe3c2d8d371d76647edbaa374a498b2253
-repo2dockerVersion: xarthisius/repo2docker_wholetale@sha256:079e7a713c60818bf007df32571601fc85959426a9bd20fb17cf109800819bc0
+image: xarthisius/gwvolman@sha256:6e1a411ae7105e8033133526d6f726548dcd7c1c2089ed827ce3a3e37476441d
+repo2dockerVersion: xarthisius/repo2docker_wholetale@sha256:6dc707325f1b0332b0019993f54d8d78ea51e58e5a46e1573aaac8e786ec07b8
 domain: {{ .Values | get "domain" "local.wholetale.org" }}
 development: {{ .Values | get "development" false }}
 ingressClass: {{ .Values | get "ingressClass" "traefik" }}
 girderfsImage: wholetale/girderfs@sha256:6e32dc5df065df79c4fa49c21b70747ce2484dd77ab0dbfeea6d550aa51ba4b2
 girderFSMountType: {{ .Values | get "girderFSMountType" "direct" }}
 r2dBaseImage: registry.imqcam.org/buildpack-deps:jammy
+existingClaim: materials-portal-01
+existingClaimSubPath: girder

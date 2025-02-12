@@ -83,3 +83,13 @@ releases:
     chart: twuni/docker-registry
     values:
       - values/registry-values.yaml.gotmpl
+    jsonPatches:
+      - target:
+          kind: Deployment
+          version: v1
+          name: registry-docker-registry
+          namespace: imqcam
+        patch:
+          - op: add
+            path: /spec/template/spec/containers/0/volumeMounts/2/subPath
+            value: registry

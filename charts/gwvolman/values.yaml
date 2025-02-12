@@ -1,5 +1,6 @@
 celeryBackend: redis://redis-master/
 celeryBroker: redis://redis-master/
+builderUrl: https://builder.xarthisius.xyz/
 repo2dockerVersion: xarthisius/repo2docker_wholetale:latest
 domain: local.wholetale.org
 registryUser: fido

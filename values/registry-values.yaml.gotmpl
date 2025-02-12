@@ -3,6 +3,12 @@ ingress:
   className: {{ .Values.ingressClass }}
   hosts: 
     - registry.{{ .Values.domain }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+     {{- with .Values.ingress.annotations }}
+     {{- . | toYaml | nindent 4 }}
+     {{- end }}
+  {{- end}}
 
 secrets:
   htpasswd: fido:$2y$05$97Z.r3atRzkXd1pA8tm4pOjV1rIksBI4DOv8S5xH0GsWuf48M2pBq
@@ -10,11 +16,11 @@ secrets:
 resources:
   limits:
     cpu: 750m
-    ephemeral-storage: 2Mi
+    ephemeral-storage: 200Mi
     memory: 768Mi
   requests:
     cpu: 500m
-    ephemeral-storage: 1Mi
+    ephemeral-storage: 150Mi
     memory: 512Mi
 
 securityContext:
