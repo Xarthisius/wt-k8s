@@ -1,0 +1,10 @@
+image: xarthisius/girder@sha256:f2edf75d997412a60b5ca0cbbd6d62f1f9556da49fde45fd53272575e7b7e762
+mongodbUri: "mongodb://mongodb:27017/girder"
+persistence:
+  enabled: true
+  accessMode: {{ .Values | get "accessMode" "ReadWriteMany" }}
+  existingClaim: materials-portal-01
+  subPath: girder
+
+development: {{ .Values | get "development" false }}
+domain: {{ .Values.domain }}

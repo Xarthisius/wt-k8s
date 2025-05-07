@@ -1,0 +1,4 @@
+apiVersion: v2
+name: local-worker
+description: A Helm chart for Girder Local Celery Worker (WT flavored)
+version: 0.1.0

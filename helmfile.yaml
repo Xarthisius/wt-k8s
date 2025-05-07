@@ -38,6 +38,16 @@ releases:
       - mongodb
       - redis
   
+  - name: local-worker
+    namespace: imqcam
+    createNamespace: false
+    chart: ./charts/local-worker
+    values:
+      - values/local-worker-values.yaml.gotmpl
+    needs:
+      - mongodb
+      - redis
+
   - name: dashboard
     namespace: imqcam
     createNamespace: false

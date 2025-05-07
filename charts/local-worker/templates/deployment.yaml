@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image }}
+          resources:
+            limits:
+              cpu: 750m
+              ephemeral-storage: 150Mi
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 50Mi
+              memory: 2Gi
+          env:
+            - name: MONGODB_URI
+              value: {{ .Values.mongodbUri | quote }}
+            - name: GIRDER_PORT
+              value: "8080"
+            - name: GIRDER_WORKER_BACKEND
+              value: {{ .Values.celeryBackend }}
+            - name: GIRDER_WORKER_BROKER
+              value: {{ .Values.celeryBroker }}
+            - name: GIRDER_MONGO_URI
+              value: {{ .Values.mongodbUri | quote }}
+            - name: HOSTDIR
+              value: "/"
+            {{- if .Values.development }}
+            - name: DEVELOPMENT
+              value: "true"
+            {{- end }}
+          command: ["/usr/bin/tini", "--"]
+          args: ["celery", "--app=girder_worker.app", "worker", "--queues=local", "-c", "2", "--loglevel=INFO"]
+          volumeMounts:
+            - name: {{ .Values.persistence.name }}
+              mountPath: {{ .Values.persistence.path }}
+              subPath: {{ default ("girder") .Values.persistence.subPath }}
+            {{- if .Values.development }}
+            - name: girder-src
+              mountPath: /girder/plugins/wholetale
+              subPath: wholetale
+            - name: girder-src
+              mountPath: /girder/plugins/wt_data_manager
+              subPath: wt_data_manager
+            - name: girder-src
+              mountPath: /girder/plugins/wt_home_dir
+              subPath: wt_home_dir
+            - name: girder-src
+              mountPath: /girder/plugins/wt_versioning
+              subPath: wt_versioning
+            - name: girder-src
+              mountPath: /girder/plugins/globus_handler
+              subPath: globus_handler
+            - name: girder-src
+              mountPath: /girder/plugins/virtual_resources
+              subPath: virtual_resources
+            - name: girder-src
+              mountPath: /girder/plugins/sem_viewer
+              subPath: sem_viewer
+            - name: girder-src
+              mountPath: /girder/plugins/table_view
+              subPath: table_view
+            - name: girder-src
+              mountPath: /girder/plugins/dataflows
+              subPath: dataflows
+            - name: girder-src
+              mountPath: /gwvolman
+              subPath: gwvolman
+            - name: girder-src
+              mountPath: /girderfs
+              subPath: girderfs
+            {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+      volumes:
+        - name: {{ .Values.persistence.name }}
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ default ("girder-data") .Values.persistence.existingClaim }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        {{- if .Values.development }}
+        - name: girder-src
+          persistentVolumeClaim:
+            claimName: girder-src
+        {{- end }}
