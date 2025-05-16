@@ -1,5 +1,7 @@
 global:
   namespaceOverride: imqcam
+  imagePullSecrets:
+    - name: xarth-dockerhub-creds
 
 namespaceOverride: imqcam
 
@@ -19,6 +21,8 @@ resources:
     cpu: 500m
     ephemeral-storage: 50Mi
     memory: 512Mi
+
+priorityClassName: reserved
 
 {{if eq .Environment.Name "jhu"}}
 persistence:

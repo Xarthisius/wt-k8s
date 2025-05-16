@@ -11,7 +11,8 @@ spec:
     metadata:    
       labels:    
         app: {{ .Chart.Name }}    
-    spec:    
+    spec:
+      priorityClassName: reserved
       securityContext:
         allowPrivilegeEscalation: false
         runAsNonRoot: true

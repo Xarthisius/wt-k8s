@@ -12,6 +12,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      priorityClassName: reserved
       securityContext:
         allowPrivilegeEscalation: false
         capabilities:
