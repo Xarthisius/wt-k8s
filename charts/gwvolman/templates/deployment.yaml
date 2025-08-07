@@ -13,6 +13,7 @@ spec:
         app: {{ .Chart.Name }}
     spec:
       serviceAccountName: gwvolman-service-account
+      priorityClassName: reserved
       imagePullSecrets:
         - name: xarth-dockerhub-creds
       securityContext:

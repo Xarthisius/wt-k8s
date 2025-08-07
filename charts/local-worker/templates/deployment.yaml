@@ -12,6 +12,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      priorityClassName: reserved
       securityContext:
         allowPrivilegeEscalation: false
         capabilities:
@@ -46,6 +47,8 @@ spec:
               value: {{ .Values.celeryBroker }}
             - name: GIRDER_MONGO_URI
               value: {{ .Values.mongodbUri | quote }}
+            - name: GIRDER_NOTIFICATION_REDIS_URL
+              value: {{ .Values.notificationRedisUrl | quote }}
             - name: HOSTDIR
               value: "/"
             {{- if .Values.development }}

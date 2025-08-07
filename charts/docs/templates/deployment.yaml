@@ -14,6 +14,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      priorityClassName: reserved
       serviceAccountName: girder-service-account
       securityContext:
         allowPrivilegeEscalation: false
@@ -68,6 +69,9 @@ spec:
               cpu: 100m
               ephemeral-storage: 1Mi
               memory: 128Mi
+          env:
+            - name: NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE
+              value: "false"
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true

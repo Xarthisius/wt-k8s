@@ -1,6 +1,8 @@
 mongodbUri: "mongodb://mongodb:27017/girder"
 celeryBackend: redis://redis-master/
 celeryBroker: redis://redis-master/
+notificationRedisUrl: redis://redis-master:6379/
+image: docker.io/xarthisius/girder:openmsi
 
 persistence:
   # -- Enable persistence using Persistent Volume Claims
