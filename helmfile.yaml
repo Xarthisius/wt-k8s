@@ -21,7 +21,7 @@ repositories:
 
 releases:
   - name: mongodb
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     version: 14.7.2
     chart: bitnami/mongodb
@@ -29,7 +29,7 @@ releases:
       - values/mongodb-values.yaml.gotmpl
 
   - name: girder
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: ./charts/girder
     values:
@@ -39,14 +39,14 @@ releases:
       - redis
   
   - name: dashboard
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: ./charts/dashboard
     values:
       - values/dashboard-values.yaml.gotmpl
 
   - name: docs
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: ./charts/docs
     values:
@@ -54,14 +54,14 @@ releases:
 
   - name: traefik
     installed: {{ eq .Environment.Name "home" | toYaml }}
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: traefik/traefik
     values:
       - values/traefik-values.yaml.gotmpl
 
   - name: redis
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     version: 18.8.2
     chart: bitnami/redis
@@ -69,7 +69,7 @@ releases:
       - values/redis-values.yaml
 
   - name: gwvolman
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: ./charts/gwvolman
     needs:
@@ -78,8 +78,18 @@ releases:
       - values/gwvolman-values.yaml.gotmpl
 
   - name: registry
-    namespace: imqcam
+    namespace: openmsi
     createNamespace: false
     chart: twuni/docker-registry
     values:
       - values/registry-values.yaml.gotmpl
+    jsonPatches:
+      - target:
+          kind: Deployment
+          version: v1
+          name: registry-docker-registry 
+          namespace: openmsi
+        patch:
+          - op: add
+            path: /spec/template/spec/containers/0/volumeMounts/2/subPath
+            value: registry

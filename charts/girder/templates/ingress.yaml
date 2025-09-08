@@ -9,9 +9,12 @@ metadata:
 spec:
 {{- if .Values.ingress.tlas }}
   tls:
+  {{- range .Values.ingress.tls }}
     - hosts:
-      - "girder.{{ .Values.domain }}"
-      - "data.{{ .Values.domain }}"
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+  {{- end }}
 {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}

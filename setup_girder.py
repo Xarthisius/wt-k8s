@@ -18,12 +18,12 @@ headers = {"Content-Type": "application/json", "Accept": "application/json"}
 
 def final_msg():
     print("-------------- You should be all set!! -------------")
-    print("try going to https://girder.test.htmdec.org and log in with: ")
+    print("try going to https://girder.openmsi.org and log in with: ")
     print("  user : %s" % params["login"])
     print("  pass : %s" % params["password"])
 
 
-api_url = "https://girder.test.htmdec.org/api/v1"
+api_url = "https://girder.openmsi.org/api/v1"
 
 # Give girder time to start
 while True:
@@ -101,7 +101,7 @@ print("Setting up Plugin")
 settings = [
     {
         "key": "core.cors.allow_origin",
-        "value": "https://dashboard.test.htmdec.org,http://localhost:4200,https://legacy.test.htmdec.org",
+        "value": "https://dashboard.openmsi.org,http://localhost:4200,https://legacy.openmsi.org",
     },
     {
         "key": "core.cors.allow_headers",
@@ -112,16 +112,16 @@ settings = [
             "X-Forwarded-Host, Remote-Addr, Cache-Control"
         ),
     },
-    {"key": "core.cookie_domain", "value": ".test.htmdec.org"},
+    {"key": "core.cookie_domain", "value": ".openmsi.org"},
     {"key": "core.secure_cookie", "value": True},
     {"key": "worker.api_url", "value": "http://girder:8080/api/v1"},
     {
         "key": "worker.broker",
-        "value": "redis://redis-master.wt.svc.cluster.local:6379/",
+        "value": "redis://redis-master:6379/",
     },
     {
         "key": "worker.backend",
-        "value": "redis://redis-master.wt.svc.cluster.local:6379/",
+        "value": "redis://redis-master:6379/",
     },
     {"key": "oauth.globus_client_id", "value": os.environ.get("GLOBUS_CLIENT_ID")},
     {

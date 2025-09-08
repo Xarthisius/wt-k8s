@@ -1,4 +1,4 @@
-domain: imqcam.org
+domain: openmsi.org
 releaseName: jhu
 ingressClass: nginx
 development: false

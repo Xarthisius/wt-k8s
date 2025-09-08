@@ -6,7 +6,9 @@ serviceAccount:
 networkPolicy:
   enabled: false
 
+
 master:
+  priorityClassName: reserved
   resources:
     limits:
       cpu: 750m

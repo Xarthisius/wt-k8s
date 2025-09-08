@@ -1,7 +1,7 @@
 global:
-  namespaceOverride: imqcam
+  namespaceOverride: openmsi
 
-namespaceOverride: imqcam
+namespaceOverride: openmsi
 
 auth:
   enabled: false
@@ -19,6 +19,17 @@ resources:
     cpu: 500m
     ephemeral-storage: 50Mi
     memory: 512Mi
+
+priorityClassName: reserved
+
+livenessProbe:
+  enabled: false
+  timeoutSeconds: 60
+  initialDelaySeconds: 3000
+
+readinessProbe:
+  enabled: false
+  initialDelaySeconds: 30
 
 {{if eq .Environment.Name "jhu"}}
 persistence:
