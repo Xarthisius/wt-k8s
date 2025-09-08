@@ -48,8 +48,6 @@ spec:
               value: {{ .Values.builderUrl }}
             - name: DEPLOYMENT
               value: "k8s"
-            - name: DEV
-              value: {{ .Values.development | quote }}
             - name: REPO2DOCKER_VERSION
               value: {{ .Values.repo2dockerVersion }}
             - name: DOMAIN

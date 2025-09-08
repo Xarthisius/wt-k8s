@@ -1,5 +1,7 @@
 global:
   namespaceOverride: openmsi
+  imagePullSecrets:
+    - name: xarth-dockerhub-creds
 
 namespaceOverride: openmsi
 
@@ -24,12 +26,6 @@ priorityClassName: reserved
 
 livenessProbe:
   enabled: false
-  timeoutSeconds: 60
-  initialDelaySeconds: 3000
-
-readinessProbe:
-  enabled: false
-  initialDelaySeconds: 30
 
 {{if eq .Environment.Name "jhu"}}
 persistence:

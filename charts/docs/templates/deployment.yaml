@@ -15,6 +15,7 @@ spec:
         app: {{ .Chart.Name }}
     spec:
       priorityClassName: reserved
+      serviceAccountName: girder-service-account
       securityContext:
         allowPrivilegeEscalation: false
         capabilities:
@@ -26,14 +27,23 @@ spec:
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
+      restartPolicy: Always
       containers:
-        - name: {{ .Chart.Name }}
-          image: xarthisius/iqmcam-docs:latest
+        - name: watcher
+          image: xarthisius/dhwatcher:latest
+          envFrom:
+            - secretRef:
+                name: dockerhub-creds
+          env:
+            - name: POD_NAME
+              value: {{ .Chart.Name }}
+            - name: POD_NAMESPACE
+              value: {{ .Release.Namespace }}
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           resources:
             limits:
-              cpu: 150m
+              cpu: 100m
               ephemeral-storage: 2Mi
               memory: 256Mi
             requests:
@@ -45,3 +55,33 @@ spec:
             runAsNonRoot: true
             capabilities:
               drop: ["ALL"]
+        - name: {{ .Chart.Name }}
+          image: xarthisius/iqmcam-docs:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 150m
+              ephemeral-storage: 2Mi
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 1Mi
+              memory: 128Mi
+          env:
+            - name: NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE
+              value: "false"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 60
+            failureThreshold: 1
+            timeoutSeconds: 10
