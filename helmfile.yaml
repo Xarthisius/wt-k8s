@@ -17,7 +17,7 @@ repositories:
   - name: traefik
     url: https://traefik.github.io/charts
   - name: twuni
-    url: https://helm.twun.io
+    url: https://twuni.github.io/docker-registry.helm
 
 releases:
   - name: mongodb
@@ -73,8 +73,7 @@ releases:
   - name: redis
     namespace: imqcam
     createNamespace: false
-    version: 18.8.2
-    chart: bitnami/redis
+    chart: ./charts/redis
     values:
       - values/redis-values.yaml
 

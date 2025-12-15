@@ -1,7 +1,7 @@
 mongodbUri: "mongodb://mongodb:27017/girder"
-celeryBackend: redis://redis-master/
-celeryBroker: redis://redis-master/
-notificationRedisUrl: redis://redis-master:6379/
+celeryBackend: redis://redis/
+celeryBroker: redis://redis/
+notificationRedisUrl: redis://redis:6379/
 image: docker.io/xarthisius/girder:openmsi
 
 persistence:
