@@ -28,6 +28,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image }}
+          workingDir: /home/girder
           ports:
             - containerPort: 8080
           resources:
