@@ -1,9 +1,9 @@
 global:
-  namespaceOverride: imqcam
   imagePullSecrets:
     - name: xarth-dockerhub-creds
 
-namespaceOverride: imqcam
+image:
+  tag: 7.0.28
 
 auth:
   enabled: false
@@ -16,11 +16,11 @@ resources:
   limits:
     cpu: 750m
     ephemeral-storage: 100Mi
-    memory: 768Mi
+    memory: 2Gi
   requests:
     cpu: 500m
     ephemeral-storage: 50Mi
-    memory: 512Mi
+    memory: 2Gi
 
 priorityClassName: reserved
 
@@ -32,9 +32,9 @@ persistence:
   enabled: true
   name: mongo-data
   existingClaim: materials-portal-01
-  subPath: mongodb
+  subPath: mongodb/data/db
   accessMode: ReadWriteOnce
-  path: /bitnami/mongodb
+  mountPath: /data/db
   size: 32Gi
   annotations: {}
 {{end}}
